@@ -43,9 +43,17 @@ pipeline {
         }
     }
 
-    post {
+        post {
         always {
-            archiveArtifacts artifacts: 'playwright-report/**', fingerprint: true
+            publishHTML([
+                reportDir: 'playwright-report',
+                reportFiles: 'index.html',
+                reportName: 'HTML Report',
+                allowMissing: false,
+                keepAll: true,
+                alwaysLinkToLastBuild: true
+            ])
         }
     }
+
 }
