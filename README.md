@@ -88,4 +88,4 @@ npx playwright show-report
 
 - Cập nhật thông tin đăng nhập test trong file `login-data.ts` trước khi chạy tests
 - Đảm bảo môi trường test có thể truy cập được URL trên
-- Tests được thiết kế linh hoạt với multiple selectors để phù hợp với các cấu trúc HTML khác nhau # Playwright-
+- Tests được thiết kế linh hoạt với multiple selectors để phù hợp với các cấu trúc HTML khác nhau

@@ -78,29 +78,19 @@ test.describe('Login Page Tests', () => {
   test('should login successfully with valid credentials', async ({ page }) => {
     await navigateToLoginPage(page);
     
-    // Fill form with valid credentials (update these with actual test credentials)
+    // Fill form with valid credentials
     await fillLoginForm(page, LOGIN_DATA.VALID_USER.email, LOGIN_DATA.VALID_USER.password);
     
-    // Submit form
-    await clickLoginButton(page);
+    // Submit form and wait for navigation in one step
+    await Promise.all([
+      page.waitForURL(/^(?!.*login).*$/, { timeout: 15000 }),  // Wait for redirect
+      clickLoginButton(page)
+    ]);
     
-    // Wait for login attempt to complete
-    await page.waitForLoadState('networkidle');
-    
-    // Check if still on login page or redirected (valid login should redirect)
+    // Verify successful login
     const currentUrl = page.url();
-    console.log('Current URL after login attempt:', currentUrl);
-    
-    // If login failed, we expect to stay on login page with error
-    if (currentUrl.includes('login')) {
-      // Check for error message indicating invalid credentials
-      await expect(page.locator(LOGIN_SELECTORS.ERROR_MESSAGE)).toBeVisible({ timeout: 5000 });
-      console.log('Login failed as expected with test credentials');
-    } else {
-      // If redirected, login was successful
-      expect(currentUrl).not.toContain('login');
-      console.log('Login successful - redirected to:', currentUrl);
-    }
+    console.log('Login successful - redirected to:', currentUrl);
+    expect(currentUrl).not.toContain('login');
   });
 
   test('should validate empty form submission', async ({ page }) => {
