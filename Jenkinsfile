@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    tools {
+        nodejs 'NodeJS 24'
+    }
 
     environment {
         PLAYWRIGHT_BROWSERS_PATH = './ms-playwright'
