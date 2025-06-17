@@ -12,7 +12,8 @@ pipeline {
         stage('Clone Private Repo') {
             steps {
                 git credentialsId: 'github-token',
-                    url: 'https://github.com/Personal-Project-VinhN/Playwright.git'
+                    url: 'https://github.com/Personal-Project-VinhN/Playwright.git',
+                    branch: 'main'
             }
         }
 
