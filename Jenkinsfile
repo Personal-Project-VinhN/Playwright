@@ -39,13 +39,6 @@ pipeline {
                 sh 'npx playwright test --reporter=html || true'
             }
         }
-
-        stage('Generate HTML Report') {
-            steps {
-                // Vẫn gọi để khởi tạo report, nhưng không fail nếu test fail
-                sh 'npx playwright show-report || true'
-            }
-        }
     }
 
     post {
