@@ -1,6 +1,6 @@
 # Playwright Login Test Project
 
-Dự án này chứa các test cases tự động cho trang login của ứng dụng Yagi.
+Dự án này chứa các test cases tự động cho trang login của VinhDev.pro.vn.
 
 ## Cài đặt
 
@@ -75,7 +75,7 @@ export const LOGIN_DATA = {
 
 ## URL Test
 
-Tests được cấu hình để chạy trên: `https://yagi-local.haldata.net/customer/account/login`
+Tests được cấu hình để chạy trên: `https://vinhdev.pro.vn/login`
 
 ## Báo cáo
 

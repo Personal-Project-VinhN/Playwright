@@ -5,10 +5,10 @@
  */
 
 export const LOGIN_DATA = {
-  // Valid credentials - update with actual test account
+  // Valid credentials - update with actual test account for vinhdev.pro.vn
   VALID_USER: {
-    email: 'gin_vn+001@haldata.net',
-    password: 'Abc@123456'
+    email: 'test@example.com',
+    password: 'password123'
   },
   
   // Invalid credentials for negative testing
@@ -25,21 +25,21 @@ export const LOGIN_DATA = {
 };
 
 export const LOGIN_SELECTORS = {
-  // Email/Username field selectors
-  EMAIL_FIELD: 'input[name="login[username]"], input[type="email"], #email',
+  // Email/Username field selectors for vinhdev.pro.vn
+  EMAIL_FIELD: 'input[name="email"]',
   
   // Password field selectors  
-  PASSWORD_FIELD: 'input[name="login[password]"], input[type="password"], #pass',
+  PASSWORD_FIELD: 'input[name="password"]',
   
   // Login button selectors
-  LOGIN_BUTTON: 'button[type="submit"], .action.login, #send2',
+  LOGIN_BUTTON: 'button[type="submit"]',
   
-  // Error message selectors
-  ERROR_MESSAGE: '.error, .message-error, .alert-error, [data-ui-id="message-error"], .mage-error',
+  // Error message selectors - updated for vinhdev.pro.vn
+  ERROR_MESSAGE: '.text-red-500, .text-danger, .error-message, .alert-error, div[class*="error"]',
   
-  // Success indicators - updated based on actual page structure
-  SUCCESS_INDICATOR: '.header .customer-welcome, .welcome, .logged-in, a[href*="logout"], .customer-name, .header-links a[href*="logout"]',
+  // Success indicators - for vinhdev.pro.vn
+  SUCCESS_INDICATOR: '.user-menu, .logout, a[href*="logout"], .dashboard, .profile, .welcome',
   
   // Forgot password link
-  FORGOT_PASSWORD: 'a[href*="forgot"], .forgot-password, .action.remind'
+  FORGOT_PASSWORD: 'a[href*="forgot"], a[href*="reset"], .forgot-password'
 }; 
