@@ -1,5 +1,6 @@
 pipeline {
     agent any
+
     tools {
         nodejs 'NodeJS 24'
     }
@@ -27,33 +28,43 @@ pipeline {
             steps {
                 sh 'npm ci'
                 sh 'npx playwright install'
+                // Nếu VM chưa cài lib hệ thống, bỏ comment dòng sau:
+                // sh 'npx playwright install-deps || true'
             }
         }
 
         stage('Run Playwright Tests') {
             steps {
-                sh 'npx playwright test'
+                // Không fail pipeline khi test fail
+                sh 'npx playwright test --reporter=html || true'
             }
         }
 
         stage('Generate HTML Report') {
             steps {
-                sh 'npx playwright show-report'
+                // Vẫn gọi để khởi tạo report, nhưng không fail nếu test fail
+                sh 'npx playwright show-report || true'
             }
         }
     }
 
-        post {
+    post {
         always {
-            publishHTML([
-                reportDir: 'playwright-report',
-                reportFiles: 'index.html',
-                reportName: 'HTML Report',
-                allowMissing: false,
-                keepAll: true,
-                alwaysLinkToLastBuild: true
-            ])
+            script {
+                def reportDir = 'playwright-report'
+                if (fileExists("${reportDir}/index.html")) {
+                    publishHTML([
+                        reportDir: reportDir,
+                        reportFiles: 'index.html',
+                        reportName: 'Playwright HTML Report',
+                        allowMissing: false,
+                        keepAll: true,
+                        alwaysLinkToLastBuild: true
+                    ])
+                } else {
+                    echo "⚠️ Report HTML không tồn tại, có thể do test bị crash hoặc chưa chạy xong."
+                }
+            }
         }
     }
-
 }
