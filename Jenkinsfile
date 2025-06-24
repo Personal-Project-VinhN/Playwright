@@ -35,13 +35,10 @@ pipeline {
 
         stage('Run Playwright Tests') {
             steps {
-                script {
-                    def result = sh(script: 'npx playwright test --headed --reporter=html', returnStatus: true)
-                    echo "Playwright exited with code: ${result}"
-                }
+                // Không fail pipeline khi test fail
+                sh 'npx playwright test --reporter=html || true'
             }
         }
-
     }
 
     post {
