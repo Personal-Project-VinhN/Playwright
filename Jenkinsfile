@@ -36,7 +36,7 @@ pipeline {
         stage('Run Playwright Tests') {
             steps {
                 script {
-                    def result = sh(script: 'npx playwright test --headless --reporter=html', returnStatus: true)
+                    def result = sh(script: 'npx playwright test --headed --reporter=html', returnStatus: true)
                     echo "Playwright exited with code: ${result}"
                 }
             }
