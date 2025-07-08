@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
 import { LOGIN_DATA, LOGIN_SELECTORS } from './test-data/login-data';
+import { TEST_CONFIG } from './config/test-config';
 
 /**
  * Test suite for login functionality
@@ -14,7 +15,7 @@ import { LOGIN_DATA, LOGIN_SELECTORS } from './test-data/login-data';
  * @lastupdate Gin<gin_vn@haldata.net>
  */
 async function navigateToLoginPage(page: Page) {
-  await page.goto('https://vinhdev.pro.vn/login');
+  await page.goto(TEST_CONFIG.URLS.LOGIN);
   await page.waitForLoadState('networkidle');
 }
 

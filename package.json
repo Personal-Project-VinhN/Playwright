@@ -6,10 +6,13 @@
   "scripts": {
     "test": "npx playwright test",
     "test:login": "npx playwright test login.spec.ts",
+    "test:dashboard": "npx playwright test tests/dashboard.spec.ts",
+    "test:demo-error": "npx playwright test tests/login-demo-error.spec.ts --reporter=list",
     "test:headed": "npx playwright test --headed",
     "test:ui": "npx playwright test --ui",
     "test:debug": "npx playwright test --debug",
-    "test:report": "npx playwright show-report"
+    "test:report": "npx playwright show-report",
+    "setup-env": "node scripts/setup-env.js"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +20,7 @@
   "type": "commonjs",
   "devDependencies": {
     "@playwright/test": "^1.53.0",
-    "@types/node": "^24.0.3"
+    "@types/node": "^24.0.3",
+    "dotenv": "^17.1.0"
   }
 }
