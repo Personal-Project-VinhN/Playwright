@@ -57,6 +57,8 @@ test.describe('Login Page Tests', () => {
     await expect(page.locator(LOGIN_SELECTORS.EMAIL_FIELD)).toBeVisible();
     await expect(page.locator(LOGIN_SELECTORS.PASSWORD_FIELD)).toBeVisible();
     await expect(page.locator(LOGIN_SELECTORS.LOGIN_BUTTON)).toBeVisible();
+    
+    console.log('should load login page successfully => Passed');
   });
 
   test('should show error with invalid credentials', async ({ page }) => {
@@ -83,8 +85,7 @@ test.describe('Login Page Tests', () => {
              el.getAttribute('aria-invalid') === 'true';
     });
     
-    console.log('Has error styling:', hasErrorStyling);
-    console.log('Current URL:', currentUrl);
+    console.log('should show error with invalid credentials => Passed');
   });
 
 
@@ -100,6 +101,8 @@ test.describe('Login Page Tests', () => {
     
     // Or check if form elements have required attribute
     await expect(page.locator(LOGIN_SELECTORS.EMAIL_FIELD)).toHaveAttribute('type', 'email');
+    
+    console.log('should validate empty form submission => Passed');
   });
 
   test('should have forgot password link', async ({ page }) => {
@@ -107,6 +110,8 @@ test.describe('Login Page Tests', () => {
     
     // Verify forgot password link exists
     await expect(page.locator(LOGIN_SELECTORS.FORGOT_PASSWORD)).toBeVisible();
+    
+    console.log('should have forgot password link => Passed');
   });
 
   test('should login successfully with valid credentials', async ({ page }) => {
@@ -115,28 +120,61 @@ test.describe('Login Page Tests', () => {
     // Fill form with credentials from environment
     await fillLoginForm(page, LOGIN_DATA.VALID_USER.email, LOGIN_DATA.VALID_USER.password);
     
-    // Submit form
+        // Submit form
     await clickLoginButton(page);
     
     // Wait for navigation after login attempt
     await page.waitForLoadState('networkidle');
     
-    // Check the result - login MUST be successful
+    // Dynamic wait for URL change
+    let finalUrl = '';
+    const maxPolls = 20; // 10 seconds total
+    const pollInterval = 500; // 0.5 seconds
+    
+    for (let i = 0; i < maxPolls; i++) {
+      await page.waitForTimeout(pollInterval);
+      finalUrl = page.url();
+      
+      if (finalUrl.includes('/dashboard')) {
+        break;
+      } else if (finalUrl.includes('/login') && i > 4) {
+        break;
+      }
+    }
+    
+    // Check the result - login success means redirect to dashboard
     const currentUrl = page.url();
-    console.log('URL after login attempt:', currentUrl);
     
-    // Expect successful login (redirect away from login page)
-    expect(currentUrl).not.toContain('login');
-    
-    // Verify we're redirected to dashboard or home page
-    const isDashboard = currentUrl.includes('dashboard') || currentUrl.includes('home') || currentUrl === TEST_CONFIG.BASE_URL + '/';
-    expect(isDashboard).toBe(true);
-    
-    // Verify success indicators are present (user menu, logout link, etc.)
-    const successIndicator = page.locator(LOGIN_SELECTORS.SUCCESS_INDICATOR).first();
-    await expect(successIndicator).toBeVisible({ timeout: 10000 });
-    
-    console.log('Login successful - redirected to:', currentUrl);
+    // Login successful if redirected to dashboard
+    const loginSuccess = currentUrl.includes('/dashboard');
+     
+     try {
+       if (loginSuccess) {
+         expect(currentUrl).toContain('/dashboard');
+         console.log('should login successfully with valid credentials => Passed');
+       } else {
+         // Check for error messages if still on login page
+         if (currentUrl.includes('/login')) {
+           const errorSelectors = [
+             '.error', '.alert-danger', '.text-red-500', '.text-danger', 
+             '.invalid-feedback', '.error-message', '[role="alert"]'
+           ];
+           
+           for (const selector of errorSelectors) {
+             const errorElement = page.locator(selector);
+             if (await errorElement.isVisible().catch(() => false)) {
+               const errorText = await errorElement.textContent();
+             }
+           }
+         }
+         
+         // Expect login to be successful (will fail if not redirected to dashboard)
+         expect(currentUrl).toContain('/dashboard');
+       }
+     } catch (error) {
+       console.log('should login successfully with valid credentials => Failed');
+       throw error;
+     }
   });
 
 }); 

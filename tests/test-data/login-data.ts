@@ -7,8 +7,8 @@
 export const LOGIN_DATA = {
   // Valid credentials - update with actual test account for vinhdev.pro.vn
   VALID_USER: {
-    email: 'test@example.com',
-    password: 'password123'
+    email: 'gin_vn@haldata.net',
+    password: 'Abc@123456'
   },
   
   // Invalid credentials for negative testing
