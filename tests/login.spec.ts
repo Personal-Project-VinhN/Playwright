@@ -58,7 +58,7 @@ test.describe('Login Page Tests', () => {
     await expect(page.locator(LOGIN_SELECTORS.PASSWORD_FIELD)).toBeVisible();
     await expect(page.locator(LOGIN_SELECTORS.LOGIN_BUTTON)).toBeVisible();
     
-    console.log('should load login page successfully => Passed');
+    console.log('• should load login page successfully => Passed');
   });
 
   test('should show error with invalid credentials', async ({ page }) => {
@@ -85,7 +85,7 @@ test.describe('Login Page Tests', () => {
              el.getAttribute('aria-invalid') === 'true';
     });
     
-    console.log('should show error with invalid credentials => Passed');
+    console.log('• should show error with invalid credentials => Passed');
   });
 
 
@@ -102,7 +102,7 @@ test.describe('Login Page Tests', () => {
     // Or check if form elements have required attribute
     await expect(page.locator(LOGIN_SELECTORS.EMAIL_FIELD)).toHaveAttribute('type', 'email');
     
-    console.log('should validate empty form submission => Passed');
+    console.log('• should validate empty form submission => Passed');
   });
 
   test('should have forgot password link', async ({ page }) => {
@@ -111,7 +111,7 @@ test.describe('Login Page Tests', () => {
     // Verify forgot password link exists
     await expect(page.locator(LOGIN_SELECTORS.FORGOT_PASSWORD)).toBeVisible();
     
-    console.log('should have forgot password link => Passed');
+    console.log('• should have forgot password link => Passed');
   });
 
   test('should login successfully with valid credentials', async ({ page }) => {
@@ -151,7 +151,7 @@ test.describe('Login Page Tests', () => {
      try {
        if (loginSuccess) {
          expect(currentUrl).toContain('/dashboard');
-         console.log('should login successfully with valid credentials => Passed');
+         console.log('• should login successfully with valid credentials => Passed');
        } else {
          // Check for error messages if still on login page
          if (currentUrl.includes('/login')) {
@@ -172,7 +172,7 @@ test.describe('Login Page Tests', () => {
          expect(currentUrl).toContain('/dashboard');
        }
      } catch (error) {
-       console.log('should login successfully with valid credentials => Failed');
+               console.log('• should login successfully with valid credentials => Failed');
        throw error;
      }
   });
