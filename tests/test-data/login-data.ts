@@ -1,21 +1,14 @@
-import { getTestCredentials } from '../config/test-config';
-
 /**
  * Test data for login functionality
  * @author Gin<gin_vn@haldata.net>
  * @lastupdate Gin<gin_vn@haldata.net>
  */
 
-// Get credentials from environment variables
-const testCredentials = getTestCredentials();
-
 export const LOGIN_DATA = {
-  // Valid credentials - loaded from environment variables
-  // Set TEST_EMAIL and TEST_PASSWORD in .env file
+  // Valid credentials - update with actual test account for vinhdev.pro.vn
   VALID_USER: {
-    email: testCredentials.email,
-    password: testCredentials.password,
-    isValid: testCredentials.isValid
+    email: 'test@example.com',
+    password: 'password123'
   },
   
   // Invalid credentials for negative testing
