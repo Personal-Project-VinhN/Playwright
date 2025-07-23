@@ -54,8 +54,8 @@ export function validateConfig() {
 // Get credentials from environment variables
 export function getTestCredentials() {
   return {
-    email: process.env.TEST_EMAIL || 'test@example.com',
-    password: process.env.TEST_PASSWORD || 'password123',
+    email: process.env.TEST_EMAIL || 'gin_vn@haldata.net',
+    password: process.env.TEST_PASSWORD || 'Abc@123456',
     isValid: !!(process.env.TEST_EMAIL && process.env.TEST_PASSWORD)
   };
 } 

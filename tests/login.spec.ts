@@ -88,30 +88,7 @@ test.describe('Login Page Tests', () => {
     console.log('Current URL:', currentUrl);
   });
 
-  test('should handle login attempt with test credentials', async ({ page }) => {
-    await navigateToLoginPage(page);
-    
-    // Fill form with test credentials
-    await fillLoginForm(page, LOGIN_DATA.VALID_USER.email, LOGIN_DATA.VALID_USER.password);
-    
-    // Submit form
-    await clickLoginButton(page);
-    
-    // Wait for form processing
-    await page.waitForLoadState('networkidle');
-    
-    // Check the result
-    const currentUrl = page.url();
-    console.log('URL after login attempt:', currentUrl);
-    
-    if (currentUrl.includes('login')) {
-      console.log('Stayed on login page - credentials may be invalid or login not implemented');
-      expect(currentUrl).toContain('login');
-    } else {
-      console.log('Redirected away from login page - login successful');
-      expect(currentUrl).not.toContain('login');
-    }
-  });
+
 
   test('should validate empty form submission', async ({ page }) => {
     await navigateToLoginPage(page);
@@ -131,6 +108,36 @@ test.describe('Login Page Tests', () => {
     
     // Verify forgot password link exists
     await expect(page.locator(LOGIN_SELECTORS.FORGOT_PASSWORD)).toBeVisible();
+  });
+
+  test('should login successfully with valid credentials', async ({ page }) => {
+    await navigateToLoginPage(page);
+    
+    // Fill form with credentials from environment
+    await fillLoginForm(page, LOGIN_DATA.VALID_USER.email, LOGIN_DATA.VALID_USER.password);
+    
+    // Submit form
+    await clickLoginButton(page);
+    
+    // Wait for navigation after login attempt
+    await page.waitForLoadState('networkidle');
+    
+    // Check the result - login MUST be successful
+    const currentUrl = page.url();
+    console.log('URL after login attempt:', currentUrl);
+    
+    // Expect successful login (redirect away from login page)
+    expect(currentUrl).not.toContain('login');
+    
+    // Verify we're redirected to dashboard or home page
+    const isDashboard = currentUrl.includes('dashboard') || currentUrl.includes('home') || currentUrl === TEST_CONFIG.BASE_URL + '/';
+    expect(isDashboard).toBe(true);
+    
+    // Verify success indicators are present (user menu, logout link, etc.)
+    const successIndicator = page.locator(LOGIN_SELECTORS.SUCCESS_INDICATOR).first();
+    await expect(successIndicator).toBeVisible({ timeout: 10000 });
+    
+    console.log('Login successful - redirected to:', currentUrl);
   });
 
 }); 
